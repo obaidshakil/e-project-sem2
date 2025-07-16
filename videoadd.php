@@ -50,22 +50,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_btn'])){
                 alert('icon not uploaded successfully');
             </script>";
         }
-        
-        $audiofile= "insert/audio/".uniqid().".mp3";
-        if (move_uploaded_file($_FILES["audiofile"]["tmp_name"],$audiofile)) {
-            echo  "<script>
-                    alert('audio uploaded successfully');
-                </script>";
-        } else {
-            echo "<script>
-                alert('audio not uploaded successfully');
-            </script>";
-        }
+
+        $videoFile = "insert/videos/" . uniqid() . ".mp4";
+if (move_uploaded_file($_FILES["video"]["tmp_name"], $videoFile)) {
+    echo "<script>
+            alert('video uploaded successfully');
+          </script>";
+} else {
+    echo "<script>
+            alert('video not uploaded successfully');
+          </script>";
+}
+
 if(empty($titleerror) && empty($descriptionerror) && empty($categoryerror) && empty($statuserror) && empty($yearerror)) {
-        $sql = "INSERT INTO music (title, description, category_id, is_new, year, image_path, file_path) VALUES ('$title', '$description', '$category_id', '$status', '$year', '$img', '$audiofile')";
+        $sql = "INSERT INTO videos (title, description, category_id, is_new, year, image_path, file_path) VALUES ('$title', '$description', '$category_id', '$status', '$year', '$img', '$audiofile')";
         
         if($isinserted = mysqli_query($conn, $sql)){
-            header('Location: musictable.php');
+            header('Location: videotable.php');
             exit();
         } else {
             echo "error: " . mysqli_error($conn);
@@ -82,7 +83,7 @@ if(empty($titleerror) && empty($descriptionerror) && empty($categoryerror) && em
                 <div class="col-lg-12 "> 
                     <div class="card">
                         <div class="card-header bg-success text-white text-center">
-                            <h2>Add Music</h2>
+                            <h2>Add Video</h2>
                         </div>
                         <div class="card-body card-block">
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-horizontal" enctype="multipart/form-data">
@@ -92,7 +93,7 @@ if(empty($titleerror) && empty($descriptionerror) && empty($categoryerror) && em
                                         <label for="title" class=" form-control-label text-dark">Title</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" id="title" name="title" placeholder="Enter song title" class="form-control">
+                                        <input type="text" id="title" name="title" placeholder="Enter video title" class="form-control">
                                         <span class="text-danger">*<?php echo $titleerror; ?></span>
                                     </div>
                                 </div>
@@ -120,54 +121,62 @@ if(empty($titleerror) && empty($descriptionerror) && empty($categoryerror) && em
                                 
                                 <div class="row form-group">
                                     <div class="col col-md-3">
-                                        <label for="audiofile" class="form-control-label text-dark">Music File</label>
+                                        <label for="audiofile" class="form-control-label text-dark">Video</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="file" id="audiofile" name="audiofile" class="form-control-file" accept="audio/*">
-                                        <audio controls id="audioPreview" class="mt-2" style="display:none;"></audio>
+                                        <input type="file" id="audiofile" name="video" class="form-control-file" accept="video/*">
+                                        <video controls id="videoPreview" class="mt-2" style="display: none;"></video>
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="category_id" class=" form-control-label text-dark">Category</label>
-                                    </div>
-                                    <div class="col-12 col-md-9">
-                                        <select name="category_id" id="category_id" class="form-control">
-                                            <?php while ($row = mysqli_fetch_assoc($result)){ ?>
-                                                <option value="<?php echo $row['category_id']; ?>"><?php echo $row['artist']; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <span class="text-danger">*<?php echo $categoryerror; ?></span>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="Status" class=" form-control-label text-dark">Status</label>
-                                    </div>
-                                 <div class="col-12 col-md-9">
-                                        <select name="Status" id="status" class="form-control">
-                                            <option value="new">New</option>
-                                            <option value="old">Old</option>
-                                        </select>
-                                        <span class="text-danger">*<?php echo $statuserror; ?></span>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="year" class=" form-control-label text-dark">Year</label>
-                                    </div>
-                                    <div class="col-12 col-md-9">
-                                        <input type="text" id="year" name="year" placeholder="Enter release year" class="form-control">
-                                        <span class="text-danger">*<?php echo $yearerror; ?></span>
-                                    </div>
-                                </div>
+   <div class="row form-group">
+    <div class="col col-md-3">
+        <label for="category_id" class="form-control-label text-dark">Category</label>
+    </div>
+    <div class="col-12 col-md-9">
+        <select name="category_id" id="category_id" class="form-control">
+            <?php while ($row = mysqli_fetch_assoc($result)){ ?>
+                <option value="<?php echo $row['category_id']; ?>"><?php echo $row['artist']; ?></option>
+            <?php } ?>
+        </select>
+        <span class="text-danger">*<?php echo $categoryerror; ?></span>
+    </div>
+</div>
 
-                                <div class="text-end">
-                                    <button type="submit" name="save_btn" class="btn btn-success px-4" onclick="return confirm('Are you sure you want to submit?');">Submit</button>
-                                </div>
+<div class="row form-group">
+    <div class="col col-md-3">
+        <label for="Status" class="form-control-label text-dark">Status</label>
+    </div>
+    <div class="col-12 col-md-9">
+        <select name="Status" id="status" class="form-control">
+            <option value="new">New</option>
+            <option value="old">Old</option>
+        </select>
+        <span class="text-danger">*<?php echo $statuserror; ?></span>
+    </div>
+</div>
 
-                            </form>
+<div class="row form-group">
+    <div class="col col-md-3">
+        <label for="year" class="form-control-label text-dark">Year</label>
+    </div>
+    <div class="col-12 col-md-9">
+        <input type="text" id="year" name="year" placeholder="Enter release year" class="form-control">
+        <span class="text-danger">*<?php echo $yearerror; ?></span>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-md-3"></div>
+    <div class="col-12 col-md-9 text-end">
+        <button type="submit" name="save_btn" class="btn btn-success px-4" onclick="return confirm('Are you sure you want to submit?');">
+            Submit
+        </button>
+    </div>
+</div>
+
+</div>
+
                         </div> 
                     </div> 
                 </div> 
@@ -195,13 +204,16 @@ if(empty($titleerror) && empty($descriptionerror) && empty($categoryerror) && em
             // them on the server until the user's session ends.
         }
     }
-    document.getElementById('audiofile').onchange = evt => {
-    const [file] = evt.target.files
-    if (file) {
-        const preview = document.getElementById('audioPreview');
-        preview.src = URL.createObjectURL(file);
-        preview.style.display = 'block';
-    }
+    document.getElementById('audiofile').onchange = function (evt) {
+        var tgt = evt.target || window.event.srcElement,
+            files = tgt.files;
+
+        if (files && files.length) {
+            var videoPreview = document.getElementById('videoPreview');
+            videoPreview.src = URL.createObjectURL(files[0]);
+            videoPreview.load();
+            videoPreview.style.display = 'block';
+        }
 }
 </script>
 

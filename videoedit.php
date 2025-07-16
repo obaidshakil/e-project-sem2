@@ -13,7 +13,7 @@ $titleerror = $descriptionerror = $categoryerror = $statuserror = $yearerror = "
 $title = $description = $category_id = $status = $year = "";
 if($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['editid'])){
     $editid = $_GET['editid'];
-    $sql = "SELECT * FROM music WHERE music_id = '$editid'";
+    $sql = "SELECT * FROM videos WHERE video_id = '$editid'";
     $result = mysqli_query($conn, $sql);
     if($row = mysqli_num_rows($result) > 0){
         $row =mysqli_fetch_assoc($result);
@@ -70,22 +70,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_btn'])){
                 alert('icon not uploaded successfully');
             </script>";
         }
-        
-        $audiofile= "insert/audio/".uniqid().".mp3";
-        if (move_uploaded_file($_FILES["audiofile"]["tmp_name"],$audiofile)) {
-            echo  "<script>
-                    alert('audio uploaded successfully');
-                </script>";
-        } else {
-            echo "<script>
-                alert('audio not uploaded successfully');
-            </script>";
-        }
+         $videoFile = "insert/videos/" . uniqid() . ".mp4";
+if (move_uploaded_file($_FILES["video"]["tmp_name"], $videoFile)) {
+    echo "<script>
+            alert('video uploaded successfully');
+          </script>";
+} else {
+    echo "<script>
+            alert('video not uploaded successfully');
+          </script>";
+}
+       
 if(empty($titleerror) && empty($descriptionerror) && empty($categoryerror) && empty($statuserror) && empty($yearerror)) {
-        $sql = "UPDATE music SET title='$title', description='$description', category_id='$category_id', is_new='$status', year='$year', image_path='$img', file_path='$audiofile' WHERE music_id='$editid'";
+        $sql = "UPDATE videos SET title='$title', description='$description', category_id='$category_id', is_new='$status', year='$year', image_path='$img', file_path='$videoFile' WHERE video_id='$editid'";
 
         if($isinserted = mysqli_query($conn, $sql)){
-            header('Location: musictable.php');
+            header('Location: videotable.php');
             exit();
         } else {
             echo "error: " . mysqli_error($conn);
@@ -102,7 +102,7 @@ if(empty($titleerror) && empty($descriptionerror) && empty($categoryerror) && em
                 <div class="col-lg-12 "> 
                     <div class="card">
                         <div class="card-header bg-success text-white text-center">
-                            <h2> Edit Music</h2>
+                            <h2> Edit Video</h2>
                         </div>
                         <div class="card-body card-block">
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-horizontal" enctype="multipart/form-data">
@@ -137,13 +137,13 @@ if(empty($titleerror) && empty($descriptionerror) && empty($categoryerror) && em
                                  </div>
                                  </div>
                                 
-                                <div class="row form-group">
+                               <div class="row form-group">
                                     <div class="col col-md-3">
-                                        <label for="audiofile" class="form-control-label">Music File</label>
+                                        <label for="audiofile" class="form-control-label text-dark">Video</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="file" id="audiofile" name="audiofile" class="form-control-file" accept="audio/*">
-                                        <audio controls id="audioPreview" class="mt-2" style="display:none;"></audio>
+                                        <input type="file" id="audiofile" name="video" class="form-control-file" accept="video/*">
+                                        <video controls id="videoPreview" class="mt-2" style="display: none;"></video>
                                     </div>
                                 </div>
 

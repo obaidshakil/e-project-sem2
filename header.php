@@ -1,4 +1,7 @@
-<?php require('inc.connection.php');
+
+
+<?php 
+ require('inc.connection.php');
 
 
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
@@ -9,6 +12,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
 <head>
     <!-- Required meta tags-->
@@ -63,6 +72,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     
 
 </head>
+
 
 <body class="animsition">
     <div class="page-wrapper">
@@ -140,6 +150,44 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
        
     </ul>
 </li>
+                      
+                       
+<li class="has-sub">
+    <a class="js-arrow" href="#">
+        <i class="fas fa-copy"></i> Ratings
+    </a>
+    <ul class="list-unstyled navbar__sub-list js-sub-list">
+       
+        <li>
+            <a href="ratingtable.php">
+                <i class="bi bi-eye-fill"></i> View Ratings
+            </a>
+        </li>
+       
+    </ul>
+</li>
+<li class="has-sub">
+    <a class="js-arrow" href="#">
+        <i class="fa fa-video-camera"></i> Videos
+    </a>
+    <ul class="list-unstyled navbar__sub-list js-sub-list">
+       
+        <li>
+
+            <a href="videoadd.php">
+                <i class="bi bi-plus"></i> Add Video
+            </a>
+        </li>
+        <li>
+            
+            <a href="videotable.php">
+                <i class="bi bi-eye-fill"></i> View Video
+            </a>
+        </li>
+       
+    </ul>
+</li>
+
                        
                     </ul>
                 </nav>
@@ -180,7 +228,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
             </div>
         </div>
     </div>
-    
-</header>
 
-            <!-- HEADER DESKTOP-->
+
+</header>
+</body>
+</html>
+
+            

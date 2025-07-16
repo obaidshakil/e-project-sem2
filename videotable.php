@@ -4,10 +4,10 @@ include ('header.php');
 <?php
 if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['deleteid'])){
     $deleteid = $_GET['deleteid'];
-    $sql = "DELETE FROM music WHERE music_id = '$deleteid'";
+    $sql = "DELETE FROM videos WHERE video_id = '$deleteid'";
     if($isdeleted = mysqli_query($conn, $sql)){
         echo "<script>alert('Data Deleted Successfully');</script>";
-        header('location:musictable.php');
+        header('location:videotable.php');
         exit();
     } else {
         echo "<script>alert('Data Not Deleted');</script>";
@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['deleteid'])){
                 <div class="col-lg-11">
                     <div class="card">
                         <div class="card-header bg-dark text-white">
-                            <h2 class="text-center text-white ">View  Music</h2>
+                            <h2 class="text-center text-white ">Video List</h2>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive table--no-card m-b-30">
@@ -29,10 +29,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['deleteid'])){
                                     <thead>
                                         <tr>
                                             <th >#</th>
-                                            <th>Music ID</th>
+                                            <th>Video_ID</th>
                                             <th>Title</th>
                                             <th>Description</th>
-                                            <th>Music</th>
+                                            <th>Video</th>
                                             <th>Thumbnail</th>
                                             <th>category_id</th>
                                             <th>Status</th>
@@ -44,19 +44,20 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['deleteid'])){
                                     <tbody>
                                         <?php
                                         $srno = 1;
-                                        $sql = "SELECT * FROM  music";
+                                        $sql = "SELECT * FROM  videos";
                                         $result = mysqli_query($conn, $sql);
                                         while($row=mysqli_fetch_assoc($result)){ ?>
                                             <tr>
                                                 <td ><?php echo $srno++; ?></td>
-                                                <td><?php echo $row['music_id']; ?></td>
+                                                <td><?php echo $row['video_id']; ?></td>
                                                 <td><?php echo $row['title']; ?></td>
                                                 <td><?php echo $row['description']; ?></td>
                                                 <td>
-                                                    <audio controls>                                                        
-                                                        <source src="<?php echo $row['file_path']; ?>" type="audio/mpeg">
-                                                        Your browser does not support the audio element.
-                                                    </audio>                                                   
+                                                   <video controls width="320" height="240">
+                                                    <source src="<?php echo $row['file_path']; ?>" type="video/mp4">
+                                                     Your browser does not support the video tag.
+                                                  </video>
+                                                
                                                 </td>
                                                 <td>
                                                     <img src="<?php echo $row['image_path']; ?>" alt="" width="50px" height="50px">
@@ -66,8 +67,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['deleteid'])){
                                                 <td><?php echo $row['created_at']; ?></td>
                                                 <td><?php echo $row['year']; ?></td>
                                                 <td class="text-right">
-                                                    <a href="editmusic.php?editid=<?php echo $row['music_id']; ?>" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to edit this Data?')">Edit</a>
-                                                    <a href="musictable.php?deleteid=<?php echo $row['music_id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Data?')">Delete</a>
+                                                    <a href="videoedit.php?editid=<?php echo $row['video_id']; ?>" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to edit this Data?')">Edit</a>
+                                                    <a href="videotable.php?deleteid=<?php echo $row['video_id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Data?')">Delete</a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
